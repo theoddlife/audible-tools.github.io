@@ -24,8 +24,15 @@ jobs:
     - name: Build project
       run: npm run build
 
-    - name: Deploy to GitHub Pages
+    - name: Compile src and public folders
+      run: |
+        mkdir -p compiled
+        cp -r src/* compiled/
+        cp -r public/* compiled/
+
+    - name: Deploy to different branch
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: /public  # Adjust this to your build output directory
+        publish_branch: page
+        publish_dir: ./compiled  # Adjust this to your build output directory
